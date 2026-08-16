@@ -4,6 +4,8 @@ import {
   useRef, useCallback, useEffect,
 } from "react";
 
+const API = import.meta.env.VITE_API_URL || "/api";
+
 const PlayerContext = createContext(null);
 
 export function PlayerProvider({ children }) {
@@ -116,7 +118,7 @@ export function PlayerProvider({ children }) {
     setLoading(true);
     try {
       const q = encodeURIComponent(`${song.title} ${song.artist}`);
-      const res = await fetch(`/api/youtube/search?q=${q}`);
+      const res = await fetch(`${API}/youtube/search?q=${q}`);
       const data = await res.json();
       if (data.success && data.videoId) {
         ytRef.current?.loadVideo(data.videoId);

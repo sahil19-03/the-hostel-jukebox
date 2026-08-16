@@ -5,7 +5,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { usePlayer } from "../context/PlayerContext";
 
-const API = "/api";
+const API = import.meta.env.VITE_API_URL || "/api";
 
 function formatTime(s) {
   if (!s || isNaN(s)) return "0:00";
