@@ -93,6 +93,31 @@ export default function HomePage() {
   const pct = totalDur > 0 ? Math.min((elapsed / totalDur) * 100, 100) : 0;
   const isLiked = currentSong && liked.has(currentSong.id);
 
+  const [isExpanded, setIsExpanded] = useState(false);
+  const touchStartY = useRef(null);
+
+  const handleTouchStart = (e) => {
+    touchStartY.current = e.touches[0].clientY;
+  };
+
+  const handleTouchMove = (e) => {
+    if (touchStartY.current === null) return;
+    const currentY = e.touches[0].clientY;
+    const diff = currentY - touchStartY.current;
+    
+    if (diff < -40) {
+      setIsExpanded(true); // Dragged up
+      touchStartY.current = null;
+    } else if (diff > 40) {
+      setIsExpanded(false); // Dragged down
+      touchStartY.current = null;
+    }
+  };
+
+  const handleTouchEnd = () => {
+    touchStartY.current = null;
+  };
+
   return (
     <div className="home-root">
 
@@ -171,7 +196,13 @@ export default function HomePage() {
       </div>
 
       {/* ── Left panel — playlist names only ── */}
-      <aside className="home-left">
+      <aside 
+        className={`home-left ${isExpanded ? 'expanded' : ''}`}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
+        <div className="mobile-drag-handle"></div>
 
         {/* App branding */}
         <div className="home-brand">
