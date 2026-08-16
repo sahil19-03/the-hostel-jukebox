@@ -1,6 +1,6 @@
 // pages/HomePage.jsx — Minimal immersive home
 // Full-screen hostel room photo · Dark left with only playlist names
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { usePlayer } from "../context/PlayerContext";
@@ -19,10 +19,23 @@ export default function HomePage() {
 
   const {
     currentSong, isPlaying, elapsed, duration,
-    loading: ytLoading, liked,
+    loading: ytLoading, liked, queue, queueIndex, playSong,
     togglePlayPause, nextSong, prevSong, toggleLike, seek,
     isShuffle, toggleShuffle
   } = usePlayer();
+
+  const [showQueue, setShowQueue] = useState(false);
+  const queueRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (queueRef.current && !queueRef.current.contains(e.target)) {
+        setShowQueue(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   useEffect(() => {
     axios.get(`${API}/playlists`).then((r) => setPlaylists(r.data.data));
@@ -225,6 +238,42 @@ export default function HomePage() {
                 <line x1="19" y1="5" x2="19" y2="19" stroke="currentColor" strokeWidth="2" />
               </svg>
             </button>
+            
+            {/* Queue Toggle Button */}
+            <div style={{ position: "relative" }} ref={queueRef}>
+              <button 
+                className={`fp-btn ${showQueue ? 'fp-active-accent' : ''}`} 
+                style={{ color: showQueue ? playerAccent : '' }} 
+                onClick={(e) => { e.stopPropagation(); setShowQueue(!showQueue); }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <circle cx="12" cy="5" r="2.5" />
+                  <circle cx="12" cy="12" r="2.5" />
+                  <circle cx="12" cy="19" r="2.5" />
+                </svg>
+              </button>
+
+              {/* Queue Dropup */}
+              {showQueue && queue && queue.length > 0 && (
+                <div className="fp-queue-dropup">
+                  <div className="fp-queue-header">Up Next</div>
+                  <div className="fp-queue-list">
+                    {queue.map((song, i) => (
+                      <div 
+                        key={song.id} 
+                        className={`fp-queue-item ${i === queueIndex ? 'active' : ''}`}
+                        onClick={(e) => { e.stopPropagation(); playSong(song, queue, i); setShowQueue(false); }}
+                        style={i === queueIndex ? { '--accent': playerAccent } : {}}
+                      >
+                        <span className="fp-q-title">{song.title}</span>
+                        <span className="fp-q-artist">{song.artist}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
             <button className={`fp-btn ${isLiked ? "fp-liked" : ""}`} onClick={(e) => { e.stopPropagation(); toggleLike(); }}>
               {isLiked ? "♥" : "♡"}
             </button>
