@@ -9,7 +9,7 @@ const app  = express();
 const PORT = process.env.PORT || 5000;
 
 // ── Middleware ────────────────────────────────────────────────
-app.use(cors());
+app.use(cors({ origin: "*" }));
 app.use(express.json());
 
 // ── In-memory cache for YouTube search results ───────────────
@@ -112,7 +112,12 @@ app.get("/api/youtube/search", async (req, res) => {
   }
 });
 
-// ── Start ────────────────────────────────────────────────────
-app.listen(PORT, () => {
-  console.log(`\n🎵 Hostel Jukebox API running at http://localhost:${PORT}\n`);
-});
+// ── Start (local dev only) ───────────────────────────────────
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`\n🎵 Hostel Jukebox API running at http://localhost:${PORT}\n`);
+  });
+}
+
+// ── Export for Vercel serverless ─────────────────────────────
+module.exports = app;
