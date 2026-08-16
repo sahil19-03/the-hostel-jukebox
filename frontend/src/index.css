@@ -2502,3 +2502,364 @@ body:has(.pl-root) { padding-bottom: 0; overflow: hidden; }
   from { opacity: 0; transform: translateX(-50%) translateY(16px) scale(0.92); }
   to   { opacity: 1; transform: translateX(-50%) translateY(0)    scale(1); }
 }
+
+
+/* ╔═══════════════════════════════════════════════════════════╗
+   MOBILE RESPONSIVE — max-width: 480px
+   Pure additive rules. Zero impact on tablet / desktop.
+   Strategy: Photo fills the full screen. Left panel becomes
+   a frosted-glass bottom-sheet overlay. Title floats top-left.
+   ╚═══════════════════════════════════════════════════════════╝ */
+
+@media (max-width: 480px) {
+
+  /* ── Body overflows locked ── */
+  body:has(.home-root) { overflow: hidden; }
+  body:has(.pl-root)   { overflow: hidden; }
+
+  /* ═══════════════════════════════════════════════════════
+     HOME PAGE — Photo-first layout
+     Background fills screen, left panel = bottom sheet
+  ═══════════════════════════════════════════════════════ */
+
+  /* Keep flex-row so the photo (position:absolute) fills all */
+  .home-root {
+    flex-direction: row;
+    overflow: hidden;
+    position: fixed;
+    inset: 0;
+  }
+
+  /* Background: center the subject on narrow screens */
+  .home-bg-img {
+    object-position: center center;
+    filter: brightness(0.60) saturate(1.2);
+  }
+
+  /* Strong left-to-right fade keeps left side readable */
+  .home-bg-tint {
+    background: linear-gradient(
+      to bottom,
+      rgba(5,5,12,0.55) 0%,
+      rgba(5,5,12,0.15) 40%,
+      rgba(5,5,12,0.70) 75%,
+      rgba(5,5,12,0.96) 100%
+    ) !important;
+  }
+
+  /* ── Left panel → fixed bottom-sheet overlay ── */
+  .home-left {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: auto;
+    width: 100%;
+    max-height: 58vh;
+    padding: 0 0 80px;   /* 80px = space for floating player */
+    overflow-y: auto;
+    scrollbar-width: none;
+    background: linear-gradient(
+      to bottom,
+      rgba(5,5,12,0.0) 0%,
+      rgba(5,5,12,0.82) 18%,
+      rgba(5,5,12,0.97) 40%
+    );
+    backdrop-filter: blur(0px);
+    z-index: 15;
+    /* smooth top edge */
+    border-top: none;
+    flex-shrink: 0;
+  }
+  .home-left::-webkit-scrollbar { display: none; }
+
+  /* Brand: compact, horizontally laid out */
+  .home-brand {
+    padding: 16px 20px 10px;
+    gap: 10px;
+  }
+  .home-brand-logo {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+  }
+  .home-brand-name   { font-size: 0.55rem; letter-spacing: 2px; }
+  .home-brand-accent { font-size: 1rem; }
+
+  .home-divider { margin: 0 20px 10px; }
+
+  /* Playlist nav rows: compact */
+  .home-pl-nav-label { padding: 0 12px 10px; font-size: 0.55rem; }
+  .home-pl-nav { padding: 0 8px; gap: 0; flex: unset; }
+  .home-pl-name-btn {
+    padding: 9px 12px;
+    animation: none; /* avoid staggered delay confusion on mobile */
+  }
+  .home-pl-btn-dot   { width: 6px; height: 6px; }
+  .home-pl-btn-hindi { font-size: 0.92rem; }
+  .home-pl-btn-eng   { font-size: 0.62rem; }
+  .home-pl-btn-arrow { display: none; } /* save space */
+
+  /* Hide bottom tagline to save space */
+  .home-tagline-bottom { display: none; }
+
+  /* Now-playing mini: slim inside the bottom sheet */
+  .home-now-playing-mini {
+    margin: 8px 20px 0;
+    padding: 8px 12px;
+    border-radius: 10px;
+  }
+  .hnpm-cover  { width: 32px; height: 32px; border-radius: 5px; }
+  .hnpm-label  { font-size: 0.5rem; }
+  .hnpm-title  { font-size: 0.78rem; }
+  .hnpm-artist { font-size: 0.62rem; }
+
+  /* ── Big Hindi title: floats top-left OVER the photo ── */
+  .home-right-title {
+    position: fixed;
+    top: 56px;           /* just below the social bar */
+    left: 20px;
+    right: 20px;
+    bottom: auto;
+    z-index: 12;
+    flex: unset;
+    pointer-events: none;
+    padding: 0;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+  .home-main-hindi,
+  .home-active-hindi {
+    font-size: clamp(2.4rem, 11vw, 3.8rem);
+    letter-spacing: -1.5px;
+    line-height: 0.92;
+    text-align: left;
+    -webkit-text-stroke: 1.5px rgba(255,255,255,0.3);
+    text-shadow: 0 4px 40px rgba(0,0,0,0.6);
+  }
+
+  /* ── Social links: top-right, compact ── */
+  .home-socials {
+    top: 10px;
+    right: 10px;
+    padding: 5px 8px;
+    gap: 0;
+    background: rgba(5,5,12,0.60);
+  }
+  .home-social-link {
+    width: 28px;
+    height: 28px;
+    font-size: 0.82rem;
+  }
+  .home-socials-divider { height: 14px; margin: 0 2px; }
+
+  /* ── Live pill: top-left, below title ── */
+  .home-live-pill {
+    top: 12px;
+    left: 12px;
+    right: auto;
+    bottom: auto;
+    transform: none;
+    font-size: 0.63rem;
+    padding: 5px 10px;
+    gap: 5px;
+  }
+  .home-live-dot { width: 6px; height: 6px; }
+
+  /* ═══════════════════════════════════════════════════════
+     FLOATING PILL PLAYER — compact & readable on mobile
+  ═══════════════════════════════════════════════════════ */
+
+  /* Main floating player (home + playlist pages) */
+  .fp-player {
+    min-width: unset;
+    width: calc(100% - 20px);
+    max-width: unset;
+    bottom: 10px;
+    padding: 7px 14px 7px 7px;
+    gap: 8px;
+    border-radius: 50px;
+  }
+
+  /* Cover art: slightly smaller */
+  .fp-cover {
+    width: 38px;
+    height: 38px;
+  }
+
+  /* Track info: tighter max-width */
+  .fp-info { max-width: 110px; }
+  .fp-title  { font-size: 0.78rem; }
+  .fp-artist { font-size: 0.65rem; }
+
+  /* Hide timestamps — they break on narrow layouts */
+  .fp-time { display: none; }
+
+  /* Seek bar: slightly thinner track */
+  .fp-seek-bar { height: 3px; }
+
+  /* Control buttons: tighter */
+  .fp-controls { gap: 2px; margin-left: 4px; }
+  .fp-btn { width: 28px; height: 28px; font-size: 0.9rem; }
+  .fp-play { width: 36px; height: 36px; }
+  .fp-spinner { width: 12px; height: 12px; }
+
+  /* Immersive page floating player */
+  .imm-floating-player {
+    min-width: unset;
+    width: calc(100% - 20px);
+    max-width: unset;
+    bottom: 10px;
+    padding: 7px 14px 7px 7px;
+    gap: 8px;
+    border-radius: 50px;
+  }
+  .imm-fp-cover { width: 38px; height: 38px; }
+  .imm-fp-info  { max-width: 100px; }
+  .imm-fp-title  { font-size: 0.78rem; }
+  .imm-fp-artist { font-size: 0.65rem; }
+  .imm-fp-time   { display: none; }
+  .imm-fp-btn    { width: 28px; height: 28px; font-size: 0.9rem; }
+  .imm-fp-play   { width: 36px; height: 36px; }
+
+  /* Queue dropup: full width at bottom */
+  .fp-queue-dropup {
+    width: calc(100vw - 20px);
+    right: auto;
+    left: 0;
+    bottom: 68px;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     PLAYLIST PAGE (pl-root)
+  ═══════════════════════════════════════════════════════ */
+
+  .pl-root { flex-direction: column; }
+
+  /* Header section */
+  .pl-header { padding: 14px 18px 12px; }
+  .pl-header-type { font-size: 0.6rem; }
+  .pl-header-hindi {
+    font-size: clamp(1.7rem, 8vw, 2.8rem);
+    letter-spacing: -0.8px;
+    margin-bottom: 5px;
+  }
+  .pl-header-tagline { font-size: 0.78rem; margin-bottom: 10px; }
+  .pl-header-actions { gap: 7px; flex-wrap: wrap; }
+  .pl-play-all  { padding: 8px 16px; font-size: 0.8rem; }
+  .pl-shuffle   { padding: 7px 13px; font-size: 0.78rem; }
+  .pl-meta-pill { font-size: 0.68rem; padding: 5px 10px; }
+
+  /* Songs list */
+  .pl-songs-wrap { padding: 0 10px 110px; }
+  .pl-song-row {
+    grid-template-columns: 30px 1fr 46px 26px;
+    padding: 10px 12px;
+    gap: 8px;
+  }
+  .pl-song-album  { display: none; }
+  .pl-song-title  { font-size: 0.84rem; }
+  .pl-song-artist { font-size: 0.7rem; }
+  .pl-song-dur    { font-size: 0.7rem; }
+
+  /* Home/back button */
+  .pl-home-btn { font-size: 0.65rem; padding: 3px 6px; }
+
+  /* Playlist info overlay at bottom of bg photo */
+  .pl-info-overlay {
+    bottom: 90px;
+    left: 18px;
+    right: 18px;
+  }
+  .pl-info-hindi   { font-size: clamp(1.8rem, 7vw, 2.8rem); }
+  .pl-info-name    { font-size: 0.95rem; }
+  .pl-info-tagline { font-size: 0.78rem; }
+
+  /* ═══════════════════════════════════════════════════════
+     IMMERSIVE PAGE (immersive-root)
+  ═══════════════════════════════════════════════════════ */
+
+  .immersive-root { flex-direction: column; }
+
+  .imm-left-panel {
+    width: 100%;
+    padding: 0 0 8px;
+    max-height: 48vh;
+    background: rgba(5,5,12,0.88);
+    backdrop-filter: blur(14px);
+  }
+  .imm-brand { padding: 12px 16px 14px; gap: 9px; }
+  .imm-brand-icon { font-size: 1.4rem; }
+  .imm-brand-name { font-size: 0.75rem; }
+  .imm-brand-accent { font-size: 0.9rem; }
+  .imm-playlist-list { padding: 0 8px; }
+  .imm-pl-card  { padding: 7px 9px; gap: 9px; }
+  .imm-pl-thumb { width: 38px; height: 38px; }
+  .imm-pl-name  { font-size: 0.8rem; }
+  .imm-pl-meta  { font-size: 0.67rem; }
+
+  .imm-main { padding: 14px 14px 120px; }
+  .imm-hindi-name { font-size: clamp(1.9rem, 10vw, 3.2rem); letter-spacing: -1px; }
+  .imm-eng-name   { font-size: 0.82rem; }
+  .imm-tagline    { font-size: 0.8rem; }
+
+  /* Song rows: hide album column */
+  .imm-song-row {
+    grid-template-columns: 26px 1fr 44px 26px;
+    padding: 7px 9px;
+    gap: 8px;
+  }
+  .imm-song-album  { display: none; }
+  .imm-song-title  { font-size: 0.8rem; }
+  .imm-song-artist { font-size: 0.67rem; }
+  .imm-song-dur    { font-size: 0.67rem; }
+
+  /* ═══════════════════════════════════════════════════════
+     EXPANDED PLAYER MODAL
+  ═══════════════════════════════════════════════════════ */
+
+  .xp-container {
+    width: 100%;
+    height: 100dvh;
+    max-height: 100dvh;
+    border-radius: 0;
+  }
+  .xp-record        { width: 190px; height: 190px; }
+  .xp-record-center { width: 76px;  height: 76px; }
+  .xp-title         { font-size: 1.15rem; }
+  .xp-artist        { font-size: 0.88rem; }
+  .xp-play-btn      { width: 52px; height: 52px; }
+  .xp-volume-slider { width: 70px; }
+
+  /* ═══════════════════════════════════════════════════════
+     SHARE TOAST
+  ═══════════════════════════════════════════════════════ */
+
+  .home-share-toast {
+    bottom: 86px;
+    font-size: 0.73rem;
+    padding: 9px 16px;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     CLASSIC PAGES (hero / playlist / songs)
+  ═══════════════════════════════════════════════════════ */
+
+  .hero-content { padding: 0 16px; padding-top: 68px; }
+  .playlist-hero-content { padding: 0 16px 24px; }
+  .playlist-description-section { padding: 0 16px; }
+  .playlist-description { font-size: 0.88rem; }
+
+  /* Hide album/duration columns in table views */
+  .playlist-songs-table td:nth-child(3),
+  .playlist-songs-table th:nth-child(3),
+  .songs-table td:nth-child(4),
+  .songs-table th:nth-child(4) { display: none; }
+
+  /* Playlist cards: 2-column grid */
+  .playlists-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  /* Footer */
+  .footer-top { grid-template-columns: 1fr; gap: 24px; }
+  .footer     { padding: 32px 0 16px; }
+}
