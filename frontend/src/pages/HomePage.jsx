@@ -15,6 +15,7 @@ function formatTime(s) {
 export default function HomePage() {
   const [playlists, setPlaylists] = useState([]);
   const [hovered, setHovered]     = useState(null);
+  const [liveCount, setLiveCount] = useState(null);
   const navigate = useNavigate();
 
   const {
@@ -35,6 +36,28 @@ export default function HomePage() {
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // ── Simulated live user count ──────────────────────────────
+  useEffect(() => {
+    // Base count on hour of day (late night/morning = fewer, evening = more)
+    const getBase = () => {
+      const h = new Date().getHours();
+      if (h >= 22 || h < 2)  return Math.floor(Math.random() * 8)  + 8;  // 8-15 (late night hostel peak)
+      if (h >= 2  && h < 7)  return Math.floor(Math.random() * 4)  + 2;  // 2-5  (dead hours)
+      if (h >= 18 && h < 22) return Math.floor(Math.random() * 10) + 6;  // 6-15 (evening)
+      return Math.floor(Math.random() * 6) + 3;                           // 3-8  (rest of day)
+    };
+    setLiveCount(getBase());
+    // Fluctuate every 8-12 seconds for a real-time feel
+    const iv = setInterval(() => {
+      setLiveCount(prev => {
+        const delta = Math.random() < 0.5 ? 1 : -1;
+        const next = prev + delta;
+        return Math.max(2, Math.min(20, next));
+      });
+    }, 8000 + Math.random() * 4000);
+    return () => clearInterval(iv);
   }, []);
 
   useEffect(() => {
@@ -59,6 +82,14 @@ export default function HomePage() {
 
   return (
     <div className="home-root">
+
+      {/* ── Live users pill ── */}
+      {liveCount !== null && (
+        <div className="home-live-pill">
+          <span className="home-live-dot" />
+          <span className="home-live-text">{liveCount} vibing right now</span>
+        </div>
+      )}
 
       {/* ── Full-screen background photo ── */}
       <div className="home-bg">
