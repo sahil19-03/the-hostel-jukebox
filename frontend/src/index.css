@@ -2602,11 +2602,11 @@ body:has(.pl-root) { padding-bottom: 0; overflow: hidden; }
   .mobile-brand, .pl-brand {
     display: flex !important;
     position: fixed;
-    top: 16px;
-    left: 16px;
+    top: 12px;
+    left: 12px;
     z-index: 200;
-    padding: 6px 12px;
-    gap: 10px;
+    padding: 5px 10px;
+    gap: 6px;
     background: rgba(10, 10, 20, 0.70);
     backdrop-filter: blur(14px);
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -2615,12 +2615,12 @@ body:has(.pl-root) { padding-bottom: 0; overflow: hidden; }
     margin: 0;
   }
   .home-brand-logo {
-    width: 30px;
-    height: 30px;
-    border-radius: 9px;
+    width: 24px;
+    height: 24px;
+    border-radius: 8px;
   }
-  .home-brand-name   { font-size: 0.5rem; letter-spacing: 2px; margin-bottom: 0; }
-  .home-brand-accent { font-size: 0.9rem; }
+  .home-brand-name   { font-size: 0.45rem; letter-spacing: 1px; margin-bottom: 0; }
+  .home-brand-accent { font-size: 0.75rem; }
 
   .home-divider { display: none; } /* Hide divider since brand is floating */
 
@@ -2652,34 +2652,38 @@ body:has(.pl-root) { padding-bottom: 0; overflow: hidden; }
 
   /* ── Social links: top-right, compact ── */
   .home-socials {
-    top: 16px;
-    right: 16px;
+    top: 12px;
+    right: 12px;
     left: auto;
     transform: none;
     margin: 0;
-    padding: 5px 8px;
+    padding: 3px 6px;
     gap: 0;
     background: rgba(10, 10, 20, 0.70);
   }
   .home-social-link {
-    width: 28px;
-    height: 28px;
-    font-size: 0.82rem;
+    width: 26px;
+    height: 26px;
+    font-size: 0.75rem;
   }
-  .home-socials-divider { height: 14px; margin: 0 2px; }
+  .home-social-link svg {
+    width: 14px;
+    height: 14px;
+  }
+  .home-socials-divider { height: 12px; margin: 0 2px; }
 
   /* ── Live pill: below the logo ── */
   .home-live-pill {
-    top: 68px;
-    left: 16px;
+    top: 56px;
+    left: 12px;
     right: auto;
     bottom: auto;
     transform: none;
-    font-size: 0.63rem;
-    padding: 5px 10px;
-    gap: 5px;
+    font-size: 0.6rem;
+    padding: 4px 8px;
+    gap: 4px;
   }
-  .home-live-dot { width: 6px; height: 6px; }
+  .home-live-dot { width: 5px; height: 5px; }
 
   /* ── Big Hindi title: floats OVER the photo ── */
   .home-right-title {
