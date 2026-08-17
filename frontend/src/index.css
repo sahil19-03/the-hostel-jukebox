@@ -2413,6 +2413,9 @@ body:has(.pl-root) { padding-bottom: 0; overflow: hidden; }
   font-family: 'Outfit', sans-serif;
 }
 
+/* Mobile specific branding is hidden by default */
+.mobile-brand { display: none !important; }
+
 /* ── Social Links (top right) ─────────────────────────────── */
 .home-socials {
   position: fixed;
@@ -2592,8 +2595,12 @@ body:has(.pl-root) { padding-bottom: 0; overflow: hidden; }
     margin: 12px auto 0;
   }
 
-  /* Brand: consistent top-left floating */
-  .home-brand, .pl-brand {
+  /* Desktop logo gets hidden on mobile */
+  .home-left .home-brand { display: none !important; }
+  
+  /* Mobile-only logo (HomePage) and Playlist Logo (.pl-brand) */
+  .mobile-brand, .pl-brand {
+    display: flex !important;
     position: fixed;
     top: 16px;
     left: 16px;
@@ -2647,6 +2654,9 @@ body:has(.pl-root) { padding-bottom: 0; overflow: hidden; }
   .home-socials {
     top: 16px;
     right: 16px;
+    left: auto;
+    transform: none;
+    margin: 0;
     padding: 5px 8px;
     gap: 0;
     background: rgba(10, 10, 20, 0.70);
