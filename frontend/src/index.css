@@ -2592,20 +2592,30 @@ body:has(.pl-root) { padding-bottom: 0; overflow: hidden; }
     margin: 12px auto 0;
   }
 
-  /* Brand: compact, horizontally laid out */
-  .home-brand {
-    padding: 16px 20px 10px;
+  /* Brand: consistent top-left floating */
+  .home-brand, .pl-brand {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 200;
+    padding: 6px 12px;
     gap: 10px;
+    background: rgba(10, 10, 20, 0.70);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 99px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+    margin: 0;
   }
   .home-brand-logo {
-    width: 34px;
-    height: 34px;
+    width: 30px;
+    height: 30px;
     border-radius: 9px;
   }
-  .home-brand-name   { font-size: 0.55rem; letter-spacing: 2px; }
-  .home-brand-accent { font-size: 1rem; }
+  .home-brand-name   { font-size: 0.5rem; letter-spacing: 2px; margin-bottom: 0; }
+  .home-brand-accent { font-size: 0.9rem; }
 
-  .home-divider { margin: 0 20px 10px; }
+  .home-divider { display: none; } /* Hide divider since brand is floating */
 
   /* Playlist nav rows: compact */
   .home-pl-nav-label { padding: 0 12px 10px; font-size: 0.55rem; }
@@ -2633,10 +2643,38 @@ body:has(.pl-root) { padding-bottom: 0; overflow: hidden; }
   .hnpm-title  { font-size: 0.78rem; }
   .hnpm-artist { font-size: 0.62rem; }
 
-  /* ── Big Hindi title: floats top-left OVER the photo ── */
+  /* ── Social links: top-right, compact ── */
+  .home-socials {
+    top: 16px;
+    right: 16px;
+    padding: 5px 8px;
+    gap: 0;
+    background: rgba(10, 10, 20, 0.70);
+  }
+  .home-social-link {
+    width: 28px;
+    height: 28px;
+    font-size: 0.82rem;
+  }
+  .home-socials-divider { height: 14px; margin: 0 2px; }
+
+  /* ── Live pill: below the logo ── */
+  .home-live-pill {
+    top: 68px;
+    left: 16px;
+    right: auto;
+    bottom: auto;
+    transform: none;
+    font-size: 0.63rem;
+    padding: 5px 10px;
+    gap: 5px;
+  }
+  .home-live-dot { width: 6px; height: 6px; }
+
+  /* ── Big Hindi title: floats OVER the photo ── */
   .home-right-title {
     position: fixed;
-    top: 56px;           /* just below the social bar */
+    top: 104px;           /* shifted down to avoid overlap with live pill */
     left: 20px;
     right: 20px;
     bottom: auto;
@@ -2656,34 +2694,6 @@ body:has(.pl-root) { padding-bottom: 0; overflow: hidden; }
     -webkit-text-stroke: 1.5px rgba(255,255,255,0.3);
     text-shadow: 0 4px 40px rgba(0,0,0,0.6);
   }
-
-  /* ── Social links: top-right, compact ── */
-  .home-socials {
-    top: 10px;
-    right: 10px;
-    padding: 5px 8px;
-    gap: 0;
-    background: rgba(5,5,12,0.60);
-  }
-  .home-social-link {
-    width: 28px;
-    height: 28px;
-    font-size: 0.82rem;
-  }
-  .home-socials-divider { height: 14px; margin: 0 2px; }
-
-  /* ── Live pill: top-left, below title ── */
-  .home-live-pill {
-    top: 12px;
-    left: 12px;
-    right: auto;
-    bottom: auto;
-    transform: none;
-    font-size: 0.63rem;
-    padding: 5px 10px;
-    gap: 5px;
-  }
-  .home-live-dot { width: 6px; height: 6px; }
 
   /* ═══════════════════════════════════════════════════════
      FLOATING PILL PLAYER — compact & readable on mobile
@@ -2782,7 +2792,12 @@ body:has(.pl-root) { padding-bottom: 0; overflow: hidden; }
   .pl-song-dur    { font-size: 0.7rem; }
 
   /* Home/back button */
-  .pl-home-btn { font-size: 0.65rem; padding: 3px 6px; }
+  .pl-home-btn { 
+    font-size: 0.65rem; 
+    padding: 3px 6px; 
+    top: 68px; 
+    left: 16px; 
+  }
 
   /* Playlist info overlay at bottom of bg photo */
   .pl-info-overlay {
