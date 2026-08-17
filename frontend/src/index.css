@@ -2652,11 +2652,12 @@ body:has(.pl-root) { padding-bottom: 0; overflow: hidden; }
 
   /* ── Social links: top-right, compact ── */
   .home-socials {
-    top: 12px;
-    right: 12px;
-    left: auto;
-    transform: none;
-    margin: 0;
+    position: fixed !important;
+    top: 12px !important;
+    right: 12px !important;
+    left: auto !important;
+    transform: none !important;
+    margin: 0 !important;
     padding: 3px 6px;
     gap: 0;
     background: rgba(10, 10, 20, 0.70);
@@ -2672,16 +2673,18 @@ body:has(.pl-root) { padding-bottom: 0; overflow: hidden; }
   }
   .home-socials-divider { height: 12px; margin: 0 2px; }
 
-  /* ── Live pill: below the logo ── */
+  /* ── Live pill: centered below the logo ── */
   .home-live-pill {
-    top: 56px;
-    left: 12px;
-    right: auto;
-    bottom: auto;
-    transform: none;
+    position: fixed !important;
+    top: 56px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    right: auto !important;
+    bottom: auto !important;
     font-size: 0.6rem;
-    padding: 4px 8px;
+    padding: 4px 10px;
     gap: 4px;
+    width: max-content;
   }
   .home-live-dot { width: 5px; height: 5px; }
 
