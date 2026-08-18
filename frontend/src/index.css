@@ -2533,8 +2533,10 @@ body:has(.pl-root) { padding-bottom: 0; overflow: hidden; }
     inset: 0;
   }
 
-  /* Background: center the subject on narrow screens */
-  .home-bg-img {
+  /* Background: fit the photo completely on narrow screens */
+  .home-bg-img,
+  .pl-bg-img {
+    object-fit: contain;
     object-position: center center;
     filter: brightness(0.60) saturate(1.2);
   }
@@ -2738,11 +2740,8 @@ body:has(.pl-root) { padding-bottom: 0; overflow: hidden; }
   .fp-title  { font-size: 0.78rem; }
   .fp-artist { font-size: 0.65rem; }
 
-  /* Hide timestamps — they break on narrow layouts */
-  .fp-time { display: none; }
-
-  /* Seek bar: slightly thinner track */
-  .fp-seek-bar { height: 3px; }
+  /* Hide the entire progress block on mobile to save space */
+  .fp-progress { display: none; }
 
   /* Control buttons: tighter */
   .fp-controls { gap: 2px; margin-left: 4px; }
@@ -2770,10 +2769,13 @@ body:has(.pl-root) { padding-bottom: 0; overflow: hidden; }
 
   /* Queue dropup: full width at bottom */
   .fp-queue-dropup {
+    position: fixed;
     width: calc(100vw - 20px);
     right: auto;
-    left: 0;
+    left: 50%;
+    transform: translateX(-50%);
     bottom: 68px;
+    z-index: 100;
   }
 
   /* ═══════════════════════════════════════════════════════
